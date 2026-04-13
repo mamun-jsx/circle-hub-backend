@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum EventType {
+  PUBLIC
+  PRIVATE
+}
+
+enum ParticipationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  BANNED
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+model User {
+  id            String          @id @default(uuid())
+  email         String          @unique
+  name          String?
+  password      String // Required for custom JWT auth
+  role          Role            @default(USER)
+  
+  // Relations
+  ownedEvents   Event[]         @relation("EventOrganizer")
+  participations Participation[]
+  reviews       Review[]
+  invitations   Invitation[]    @relation("InvitedUser")
+  
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model Event {
+  id              String          @id @default(uuid())
+  title           String
+  image           String?
+  description     String
+  date            DateTime
+  time            String
+  venue           String          // Or Event Link
+  type            EventType       @default(PUBLIC)
+  registrationFee Float           @default(0.0)
+  isFeatured      Boolean         @default(false)
+  
+  // Organizer
+  organizerId     String
+  organizer       User            @relation("EventOrganizer", fields: [organizerId], references: [id], onDelete: Cascade)
+  
+  // Relations
+  participants    Participation[]
+  reviews         Review[]
+  invitations     Invitation[]
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model Participation {
+  id           String              @id @default(uuid())
+  status       ParticipationStatus @default(PENDING)
+  
+  // Payment Tracking
+  transactionId String?            @unique // From SSLCommerz/Stripe
+  isPaid       Boolean             @default(false)
+  
+  userId       String
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  eventId      String
+  event        Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  @@unique([userId, eventId]) // Prevent duplicate join requests
+}
+
+model Invitation {
+  id         String           @id @default(uuid())
+  status     InvitationStatus @default(PENDING)
+  
+  eventId    String
+  event      Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  inviteeId  String
+  invitee    User             @relation("InvitedUser", fields: [inviteeId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime         @default(now())
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int      @default(5)
+  comment   String?
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, eventId]) // One review per user per event
+}
