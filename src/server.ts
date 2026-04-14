@@ -1,5 +1,5 @@
-import app from './app';
-import config from './config';
+import app from "./app.ts";
+import config from "./config/index.ts";
 
 async function main() {
   try {

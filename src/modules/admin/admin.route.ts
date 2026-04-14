@@ -1,7 +1,7 @@
 
 
 import { Router } from "express";
-import { adminController } from "./admin.controller";
+import { adminController } from "./admin.controller.ts";
 
 
 const adminRouter = Router()
