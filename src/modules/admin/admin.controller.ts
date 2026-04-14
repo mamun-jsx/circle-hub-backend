@@ -72,8 +72,56 @@ const createEvent = async (req: Request, res: Response) => {
     });
   }
 };
+// update an events by id
+const updateEvent = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
 
+    const {
+      title,
+      image,
+      description,
+      date,
+      time,
+      venue,
+      type,
+      registrationFee,
+      isFeatured,
+      organizer,
+    } = req.body;
+    const result = await prisma.event.update({
+      where: {
+        id,
+      },
+      data: {
+        title,
+        image,
+        description,
+        date,
+        time,
+        venue,
+        type,
+        registrationFee: Number(registrationFee),
+        isFeatured: Boolean(isFeatured),
+        organizerName: organizer?.name,
+        organizerEmail: organizer?.email,
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Event updated successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
 export const adminController = {
   getAllUser,
   createEvent,
+  updateEvent,
 };
