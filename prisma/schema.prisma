@@ -89,8 +89,6 @@ model Participation {
   @@unique([userId, eventId]) // Prevent duplicate join requests
 }
 
-
-
 model Review {
   id        String   @id @default(uuid())
   rating    Int      @default(5)

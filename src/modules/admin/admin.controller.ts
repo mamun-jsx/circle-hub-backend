@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../../lib/prisma.ts";
 
+// get all users
 const getAllUser = async (req: Request, res: Response) => {
   try {
     const allUsers = await prisma.user.findMany();
@@ -24,6 +25,7 @@ const getAllUser = async (req: Request, res: Response) => {
   }
 };
 
+// create an event
 const createEvent = async (req: Request, res: Response) => {
   try {
     const {
