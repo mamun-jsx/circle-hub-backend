@@ -1,20 +1,18 @@
-
-
 import { Router } from "express";
 import { adminController } from "./admin.controller.ts";
 
+const adminRouter = Router();
 
-const adminRouter = Router()
+adminRouter.get("/api/admin/get-all-users", adminController.getAllUser);
+adminRouter.post("/api/admin/create-event", adminController.createEvent);
+adminRouter.put("/api/admin/update-event/:id", adminController.updateEvent);
+adminRouter.delete(
+  "/api/admin/delete-event/:id",
+  adminController.deleteEventById,
+);
 
-adminRouter.get("/api/admin/get-all-users",adminController.getAllUser)
-adminRouter.post("/api/admin/create-event",adminController.createEvent)
-adminRouter.put("/api/admin/update-event/:id",adminController.updateEvent)
+export const adminRoute = { adminRouter };
 
-
-
-export const adminRoute = {adminRouter}
-
-
-const adminOperation ={
-    get:'http://localhost:4001/api/admin/get-all-users'
-}
+const adminOperation = {
+  get: "http://localhost:4001/api/admin/get-all-users",
+};

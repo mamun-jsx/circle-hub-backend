@@ -120,8 +120,30 @@ const updateEvent = async (req: Request, res: Response) => {
     });
   }
 };
+const deleteEventById = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    const result = await prisma.event.delete({
+      where: {
+        id,
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Event deleted successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
 export const adminController = {
   getAllUser,
   createEvent,
   updateEvent,
+  deleteEventById,
 };
