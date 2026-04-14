@@ -33,12 +33,3 @@ export const ParticipationStatus = {
 } as const
 
 export type ParticipationStatus = (typeof ParticipationStatus)[keyof typeof ParticipationStatus]
-
-
-export const InvitationStatus = {
-  PENDING: 'PENDING',
-  ACCEPTED: 'ACCEPTED',
-  DECLINED: 'DECLINED'
-} as const
-
-export type InvitationStatus = (typeof InvitationStatus)[keyof typeof InvitationStatus]

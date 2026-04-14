@@ -7,6 +7,7 @@ import { adminController } from "./admin.controller.ts";
 const adminRouter = Router()
 
 adminRouter.get("/api/admin/get-all-users",adminController.getAllUser)
+adminRouter.post("/api/admin/create-event",adminController.createEvent)
 
 
 

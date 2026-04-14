@@ -33,11 +33,6 @@ export type Event = Prisma.EventModel
  */
 export type Participation = Prisma.ParticipationModel
 /**
- * Model Invitation
- * 
- */
-export type Invitation = Prisma.InvitationModel
-/**
  * Model Review
  * 
  */

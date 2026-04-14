@@ -60,10 +60,9 @@ const register = async (req: Request, res: Response) => {
     // Generate JWT for the new user
     const token = jwt.sign(
       { id: newUser.id, email: newUser?.email, role: newUser?.role },
-      process.env.JWt_SECRET || "very_secret_key",
+      process.env.JWT_SECRET || "very_secret_key",
       { expiresIn: "2h" },
     );
-    console.log("register");
     res.status(201).json({
       success: true,
       message: "register is successfully",

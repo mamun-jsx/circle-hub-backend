@@ -25,24 +25,20 @@ enum ParticipationStatus {
   BANNED
 }
 
-enum InvitationStatus {
-  PENDING
-  ACCEPTED
-  DECLINED
-}
+
 
 model User {
   id            String          @id @default(uuid())
   email         String          @unique
   name          String?
-  password      String // Required for custom JWT auth
+  password      String 
   role          Role            @default(USER)
   
   // Relations
-  ownedEvents   Event[]         @relation("EventOrganizer")
+  // REMOVE THIS LINE: ownedEvents Event[] @relation("EventOrganizer") 
+  
   participations Participation[]
   reviews       Review[]
-  invitations   Invitation[]    @relation("InvitedUser")
   
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
@@ -53,21 +49,21 @@ model Event {
   title           String
   image           String?
   description     String
-  date            DateTime
+  date            String
   time            String
-  venue           String          // Or Event Link
+  venue           String          
   type            EventType       @default(PUBLIC)
   registrationFee Float           @default(0.0)
   isFeatured      Boolean         @default(false)
   
-  // Organizer
-  organizerId     String
-  organizer       User            @relation("EventOrganizer", fields: [organizerId], references: [id], onDelete: Cascade)
+  // Plain string fields (No relation to User model)
+  organizerName   String
+  organizerEmail  String          // Can have many events with same email
   
-  // Relations
-  participants    Participation[]
+  // Keep relations with other models
   reviews         Review[]
-  invitations     Invitation[]
+  participants    Participation[]
+
   
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
@@ -93,18 +89,7 @@ model Participation {
   @@unique([userId, eventId]) // Prevent duplicate join requests
 }
 
-model Invitation {
-  id         String           @id @default(uuid())
-  status     InvitationStatus @default(PENDING)
-  
-  eventId    String
-  event      Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  
-  inviteeId  String
-  invitee    User             @relation("InvitedUser", fields: [inviteeId], references: [id], onDelete: Cascade)
 
-  createdAt  DateTime         @default(now())
-}
 
 model Review {
   id        String   @id @default(uuid())

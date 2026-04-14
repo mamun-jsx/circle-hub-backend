@@ -4,6 +4,7 @@ import { AuthRequest } from "../types/interface.ts";
 export const checkRole = (role: string[]) => {
   return (req: AuthRequest, res: Response, next: NextFunction) => {
     const user = req.user;
+
     if (!user) {
       return res.status(401).json({
         success: false,

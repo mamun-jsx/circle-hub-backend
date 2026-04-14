@@ -54,7 +54,6 @@ export const ModelName = {
   User: 'User',
   Event: 'Event',
   Participation: 'Participation',
-  Invitation: 'Invitation',
   Review: 'Review'
 } as const
 
@@ -98,7 +97,8 @@ export const EventScalarFieldEnum = {
   type: 'type',
   registrationFee: 'registrationFee',
   isFeatured: 'isFeatured',
-  organizerId: 'organizerId',
+  organizerName: 'organizerName',
+  organizerEmail: 'organizerEmail',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -118,17 +118,6 @@ export const ParticipationScalarFieldEnum = {
 } as const
 
 export type ParticipationScalarFieldEnum = (typeof ParticipationScalarFieldEnum)[keyof typeof ParticipationScalarFieldEnum]
-
-
-export const InvitationScalarFieldEnum = {
-  id: 'id',
-  status: 'status',
-  eventId: 'eventId',
-  inviteeId: 'inviteeId',
-  createdAt: 'createdAt'
-} as const
-
-export type InvitationScalarFieldEnum = (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum]
 
 
 export const ReviewScalarFieldEnum = {
