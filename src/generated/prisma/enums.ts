@@ -23,13 +23,3 @@ export const EventType = {
 } as const
 
 export type EventType = (typeof EventType)[keyof typeof EventType]
-
-
-export const ParticipationStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED',
-  BANNED: 'BANNED'
-} as const
-
-export type ParticipationStatus = (typeof ParticipationStatus)[keyof typeof ParticipationStatus]

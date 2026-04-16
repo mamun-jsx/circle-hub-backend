@@ -184,23 +184,6 @@ export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
-export type EnumParticipationStatusFilter<$PrismaModel = never> = {
-  equals?: $Enums.ParticipationStatus | Prisma.EnumParticipationStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.ParticipationStatus[] | Prisma.ListEnumParticipationStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ParticipationStatus[] | Prisma.ListEnumParticipationStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumParticipationStatusFilter<$PrismaModel> | $Enums.ParticipationStatus
-}
-
-export type EnumParticipationStatusWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.ParticipationStatus | Prisma.EnumParticipationStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.ParticipationStatus[] | Prisma.ListEnumParticipationStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ParticipationStatus[] | Prisma.ListEnumParticipationStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumParticipationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ParticipationStatus
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumParticipationStatusFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumParticipationStatusFilter<$PrismaModel>
-}
-
 export type IntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -409,23 +392,6 @@ export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedBoolFilter<$PrismaModel>
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
-}
-
-export type NestedEnumParticipationStatusFilter<$PrismaModel = never> = {
-  equals?: $Enums.ParticipationStatus | Prisma.EnumParticipationStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.ParticipationStatus[] | Prisma.ListEnumParticipationStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ParticipationStatus[] | Prisma.ListEnumParticipationStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumParticipationStatusFilter<$PrismaModel> | $Enums.ParticipationStatus
-}
-
-export type NestedEnumParticipationStatusWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.ParticipationStatus | Prisma.EnumParticipationStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.ParticipationStatus[] | Prisma.ListEnumParticipationStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ParticipationStatus[] | Prisma.ListEnumParticipationStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumParticipationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ParticipationStatus
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumParticipationStatusFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumParticipationStatusFilter<$PrismaModel>
 }
 
 export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {

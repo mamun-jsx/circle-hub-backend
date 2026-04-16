@@ -52,12 +52,12 @@ export type User = Prisma.UserModel
  */
 export type Event = Prisma.EventModel
 /**
- * Model Participation
- * 
- */
-export type Participation = Prisma.ParticipationModel
-/**
  * Model Review
  * 
  */
 export type Review = Prisma.ReviewModel
+/**
+ * Model Booking
+ * 
+ */
+export type Booking = Prisma.BookingModel

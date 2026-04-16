@@ -53,8 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Event: 'Event',
-  Participation: 'Participation',
-  Review: 'Review'
+  Review: 'Review',
+  Booking: 'Booking'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -106,20 +106,6 @@ export const EventScalarFieldEnum = {
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
 
 
-export const ParticipationScalarFieldEnum = {
-  id: 'id',
-  status: 'status',
-  transactionId: 'transactionId',
-  isPaid: 'isPaid',
-  userId: 'userId',
-  eventId: 'eventId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ParticipationScalarFieldEnum = (typeof ParticipationScalarFieldEnum)[keyof typeof ParticipationScalarFieldEnum]
-
-
 export const ReviewScalarFieldEnum = {
   id: 'id',
   rating: 'rating',
@@ -131,6 +117,29 @@ export const ReviewScalarFieldEnum = {
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const BookingScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  title: 'title',
+  image: 'image',
+  date: 'date',
+  time: 'time',
+  venue: 'venue',
+  type: 'type',
+  price: 'price',
+  organizerEmail: 'organizerEmail',
+  userName: 'userName',
+  email: 'email',
+  mobile: 'mobile',
+  transactionId: 'transactionId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -18,12 +18,7 @@ enum EventType {
   PRIVATE
 }
 
-enum ParticipationStatus {
-  PENDING
-  APPROVED
-  REJECTED
-  BANNED
-}
+
 
 
 
@@ -37,7 +32,6 @@ model User {
   // Relations
   // REMOVE THIS LINE: ownedEvents Event[] @relation("EventOrganizer") 
   
-  participations Participation[]
   reviews       Review[]
   
   createdAt     DateTime        @default(now())
@@ -62,32 +56,14 @@ model Event {
   
   // Keep relations with other models
   reviews         Review[]
-  participants    Participation[]
+  
 
   
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 }
 
-model Participation {
-  id           String              @id @default(uuid())
-  status       ParticipationStatus @default(PENDING)
-  
-  // Payment Tracking
-  transactionId String?            @unique // From SSLCommerz/Stripe
-  isPaid       Boolean             @default(false)
-  
-  userId       String
-  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  eventId      String
-  event        Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
-  createdAt    DateTime            @default(now())
-  updatedAt    DateTime            @updatedAt
-
-  @@unique([userId, eventId]) // Prevent duplicate join requests
-}
 
 model Review {
   id        String   @id @default(uuid())
@@ -104,4 +80,33 @@ model Review {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, eventId]) // One review per user per event
+}
+
+model Booking {
+  id              String    @id @default(uuid())
+  
+  // Event Details
+  eventId         String
+  title           String
+  image           String?
+  date            String
+  time            String
+  venue           String
+  type            String    @default("Ticket") // Matches the string logic in your controller
+  
+  // Pricing & Organizer
+  price           Float     @default(0.0)
+  organizerEmail  String
+  
+  // User/Customer Info
+  userName        String
+  email           String    // Renamed from userEmail to match your req.body
+  mobile          String    // Renamed from userMobile to match your req.body
+  
+  // Payment Tracking
+  transactionId   String    @unique // Map this to your data.tran_id
+  status          String    @default("PENDING") // Better as String to handle "SUCCESS", "FAILED", "CANCELLED"
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
