@@ -21,6 +21,6 @@
     "skipLibCheck": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*","sslcommerz-lts.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
