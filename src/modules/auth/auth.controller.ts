@@ -80,4 +80,22 @@ const register = async (req: Request, res: Response) => {
   }
 };
 
-export const authController = { login, register };
+// get user profile
+const userProfile = async (req: Request, res: Response) => {
+  // Use email from the decoded token (attached by middleware)
+  const email = (req as any).user.email;
+
+  const user = await prisma.user.findUnique({ where: { email } });
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found" });
+  }
+
+  return res.status(200).json({
+    success: true,
+    data: user,
+  });
+};
+
+
+export const authController = { login, register, userProfile };

@@ -1,8 +1,7 @@
-import { Response, NextFunction } from "express";
-import { AuthRequest } from "../types/interface.ts";
+import { Request, Response, NextFunction } from "express";
 
-export const checkRole = (role: string[]) => {
-  return (req: AuthRequest, res: Response, next: NextFunction) => {
+export const checkRole = (roles: string[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
     if (!user) {
@@ -11,12 +10,14 @@ export const checkRole = (role: string[]) => {
         message: "Unauthorized: No user information found",
       });
     }
-    if (!role.includes(user.role)) {
+
+    if (!roles.map(r => r.toUpperCase()).includes(user.role.toUpperCase())) {
       return res.status(403).json({
         success: false,
         message: "Forbidden: Insufficient permissions",
       });
     }
+
     next();
   };
 };

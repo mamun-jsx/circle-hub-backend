@@ -127,6 +127,7 @@ const failPayment = async (req: Request, res: Response) => {
     return res.redirect(`http://localhost:3000/dashboard/my-tickets`);
   } catch (error) {
     console.error("Fail Payment Error:", error);
+    
     return res.redirect(`http://localhost:3000/dashboard/my-tickets`);
   }
 };
