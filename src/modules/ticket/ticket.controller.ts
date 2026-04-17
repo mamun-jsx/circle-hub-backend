@@ -5,6 +5,7 @@ import { prisma } from "../../lib/prisma.ts";
 const store_id = process.env.store_id_SSLcommerz || "";
 const store_passwd = process.env.store_passwd_SSLcommerz || "";
 const is_live = false; // Set to true for production
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4001";
 
 const buyTicket = async (req: Request, res: Response) => {
   try {
@@ -30,13 +31,14 @@ const buyTicket = async (req: Request, res: Response) => {
       currency: "BDT",
       tran_id: transactionId,
       success_url: `http://localhost:4001/api/success-payment/${transactionId}`,
-      fail_url: "http://localhost:4001/api/fail",
-      cancel_url: "http://localhost:4001/api/cancel",
+      fail_url: "http://localhost:4001/api/fail-payment",
+      cancel_url: `http://localhost:4001/api/cancel-payment/${transactionId}`,
       ipn_url: "http://localhost:4001/api/ipn",
       shipping_method: "NO",
       product_name: title,
       product_category: type || "Ticket",
       product_profile: "general",
+
       cus_name: userName,
       cus_email: email,
       cus_phone: mobile,
@@ -88,7 +90,7 @@ const buyTicket = async (req: Request, res: Response) => {
       });
     }
   } catch (error) {
-    console.error("Payment Error:", error);
+
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -98,7 +100,6 @@ const buyTicket = async (req: Request, res: Response) => {
 // for success the payment data
 const successPayment = async (req: Request, res: Response) => {
   const id = req.params.id as string;
-  console.log("id is here---> ", id);
   const updateStatus = await prisma.booking.update({
     where: {
       transactionId: id,
@@ -108,8 +109,46 @@ const successPayment = async (req: Request, res: Response) => {
     },
   });
   if (updateStatus) {
-    return res.redirect(`${process.env.FRONTEND_URL}/dashboard/my-tickets`);
+    return res.redirect(`http://localhost:3000/dashboard/my-tickets`);
+  }
+};
+// payment failed..
+const failPayment = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string; // Get transactionId from URL
+
+    // Update status to FAILED in DB
+    await prisma.booking.update({
+      where: { transactionId: id },
+      data: { status: "FAILED" },
+    });
+
+    // Redirect to frontend dashboard with an error message
+    return res.redirect(`http://localhost:3000/dashboard/my-tickets`);
+  } catch (error) {
+    console.error("Fail Payment Error:", error);
+    return res.redirect(`http://localhost:3000/dashboard/my-tickets`);
   }
 };
 
-export const ticketController = { buyTicket, successPayment };
+// cancle any payments
+const cancelPayment = async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const updateStatus = await prisma.booking.update({
+    where: {
+      transactionId: id,
+    },
+    data: {
+      status: "CANCELLED",
+    },
+  });
+  if (updateStatus) {
+    return res.redirect(`http://localhost:3000/dashboard/my-tickets`);
+  }
+};
+export const ticketController = {
+  buyTicket,
+  successPayment,
+  failPayment,
+  cancelPayment,
+};
