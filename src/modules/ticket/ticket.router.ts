@@ -5,11 +5,17 @@ import { verifyAuth } from "../../middlewares/verifyAuth.ts";
 const router = express.Router();
 
 router.post("/api/buy-ticket", ticketController.buyTicket);
-router.post("/api/success-payment/:id", ticketController.successPayment);
+router.post(
+  "/api/success-payment/:id",
+
+  ticketController.successPayment,
+);
 router.post("/api/fail-payment", ticketController.failPayment);
-router.post("/api/cancel-payment/:id", ticketController.cancelPayment);
+router.post(
+  "/api/cancel-payment/:id",
 
-
+  ticketController.cancelPayment,
+);
 
 router.get(
   "/api/all-tickets",
@@ -18,4 +24,3 @@ router.get(
   ticketController.getAllTickets,
 );
 export const ticketRouter = router;
-

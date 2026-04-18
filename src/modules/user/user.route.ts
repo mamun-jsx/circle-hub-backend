@@ -7,6 +7,9 @@ userRouter.get("/api/events", userController.getAllEvents);
 userRouter.get("/api/events/:id", userController.getSingleEvent);
 userRouter.get("/api/my-ticket/:email", verifyAuth, userController.getMyTicket);
 userRouter.post("/api/review", verifyAuth, userController.provideReview);
+userRouter.get("/api/all-review", userController.getAllReview);
+userRouter.get("/api/my-review/:userId", verifyAuth, userController.getMyReview);
+
 export const userRoute = { userRouter };
 
 const user__Operation = {
