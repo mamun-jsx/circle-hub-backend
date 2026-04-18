@@ -50,4 +50,77 @@ const getSingleEvent = async (req: Request, res: Response) => {
   }
 };
 
-export const userController = { getAllEvents, getSingleEvent };
+const getMyTicket = async (req: Request, res: Response) => {
+  try {
+    const userEmiail = req.params.email as string;
+    const getMyTicket = await prisma.booking.findMany({
+      where: {
+        email: userEmiail,
+      },
+    });
+    if (getMyTicket?.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No ticket found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      data: getMyTicket,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+// provide review 
+const provideReview = async (req: Request, res: Response) => {
+  try {
+    const { eventId, userId, rating, comment } = req.body;
+
+    if (!eventId || !userId) {
+      return res.status(400).json({
+        success: false,
+        message: "eventId and userId are required",
+      });
+    }
+
+    const review = await prisma.review.create({
+      data: {
+        eventId,
+        userId,
+        rating: rating ? Number(rating) : 10,
+        comment: comment || null,
+      },
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Review created successfully",
+      data: review,
+    });
+  } catch (error: any) {
+    console.error("Review Error:", error);
+
+    // ⚠️ handle duplicate review (because of @@unique)
+    if (error.code === "P2002") {
+      return res.status(409).json({
+        success: false,
+        message: "You already reviewed this event",
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+export const userController = {
+  getAllEvents,
+  getSingleEvent,
+  getMyTicket,
+  provideReview,
+};
