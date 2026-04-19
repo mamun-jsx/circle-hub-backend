@@ -32,6 +32,13 @@ const getSingleEvent = async (req: Request, res: Response) => {
       where: {
         id: id,
       },
+      include: {
+        reviews: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
     if (!event) {
       return res.status(404).json({
@@ -147,6 +154,7 @@ const getAllReview = async (req: Request, res: Response) => {
   }
 };
 
+// get user's review by user id...
 const getMyReview = async (req: Request, res: Response) => {
   const userId = req.params.id as string;
 
@@ -170,11 +178,64 @@ const getMyReview = async (req: Request, res: Response) => {
     });
   }
 };
+
+// update review
+const updateReview = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    const { rating, comment } = req.body;
+    const updatedReview = await prisma.review.update({
+      where: {
+        id: id,
+      },
+      data: {
+        rating: rating,
+        comment: comment,
+      },
+    });
+    res.status(200).json({
+      success: true,
+      message: "Review updated successfully",
+      data: updatedReview,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+// get single review by id
+export const getSingleReview = async (req: Request, res: Response) => {
+  const reviewId = req.params.id as string;
+  try {
+    const singleReview = await prisma.review.findUnique({
+      where: {
+        id: reviewId,
+      },
+    });
+    if (!singleReview) {
+      return res.status(404).json({
+        success: false,
+        message: "Review not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      data: singleReview,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
 export const userController = {
   getAllEvents,
   getSingleEvent,
   getMyTicket,
   provideReview,
+  updateReview,
+  getSingleReview,
   getAllReview,
   getMyReview,
 };

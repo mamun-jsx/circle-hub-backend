@@ -8,13 +8,12 @@ userRouter.get("/api/events/:id", userController.getSingleEvent);
 userRouter.get("/api/my-ticket/:email", verifyAuth, userController.getMyTicket);
 userRouter.post("/api/review", verifyAuth, userController.provideReview);
 userRouter.get("/api/all-review", userController.getAllReview);
-userRouter.get("/api/my-review/:userId", verifyAuth, userController.getMyReview);
+userRouter.get("/api/review/:id", verifyAuth, userController.getSingleReview);
+userRouter.get(
+  "/api/my-review/:userId",
+  verifyAuth,
+  userController.getMyReview,
+);
+userRouter.patch("/api/review/:id", verifyAuth, userController.updateReview);
 
 export const userRoute = { userRouter };
-
-const user__Operation = {
-  get: "http://localhost:4001/api/events",
-  getSingle: "http://localhost:4001/api/events/:id",
-  getMyTicket: "http://localhost:4001/api/my-ticket/:email",
-  provideReview: "http://localhost:4001/api/review",
-};
