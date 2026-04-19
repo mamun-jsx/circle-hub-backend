@@ -21,7 +21,6 @@ enum EventType {
 
 
 
-
 model User {
   id            String          @id @default(uuid())
   email         String          @unique
