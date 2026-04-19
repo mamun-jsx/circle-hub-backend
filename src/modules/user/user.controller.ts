@@ -64,16 +64,14 @@ const getMyTicket = async (req: Request, res: Response) => {
       where: {
         email: userEmiail,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
-    if (getMyTicket?.length === 0) {
-      return res.status(200).json({
-        success: true,
-        message: "No ticket found",
-      });
-    }
+
     res.status(200).json({
       success: true,
-      data: getMyTicket,
+      data: getMyTicket || [],
     });
   } catch (error) {
     res.status(500).json({
@@ -156,24 +154,32 @@ const getAllReview = async (req: Request, res: Response) => {
 
 // get user's review by user id...
 const getMyReview = async (req: Request, res: Response) => {
-  const userId = req.params.id as string;
+  const userId = req.params.id as string; // get user id
 
   try {
     const myReviews = await prisma.review.findMany({
       where: { userId: userId },
+      include: {
+        event: {
+          select: {
+            title: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
-    if (myReviews?.length === 0) {
-      return res.status(200).json({
-        success: true,
-        message: "No review found",
-      });
-    }
+
     res.status(200).json({
       success: true,
-      data: myReviews,
+      data: myReviews || [],
     });
   } catch (error) {
+    console.error("Get My Reviews Error:", error);
     res.status(500).json({
+      success: false,
       message: "Internal server error",
     });
   }
@@ -229,6 +235,8 @@ export const getSingleReview = async (req: Request, res: Response) => {
     });
   }
 };
+// buy free ticket
+
 export const userController = {
   getAllEvents,
   getSingleEvent,

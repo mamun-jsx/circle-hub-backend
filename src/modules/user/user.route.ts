@@ -9,11 +9,7 @@ userRouter.get("/api/my-ticket/:email", verifyAuth, userController.getMyTicket);
 userRouter.post("/api/review", verifyAuth, userController.provideReview);
 userRouter.get("/api/all-review", userController.getAllReview);
 userRouter.get("/api/review/:id", verifyAuth, userController.getSingleReview);
-userRouter.get(
-  "/api/my-review/:userId",
-  verifyAuth,
-  userController.getMyReview,
-);
+userRouter.get("/api/my-review/:id", userController.getMyReview);
 userRouter.patch("/api/review/:id", verifyAuth, userController.updateReview);
 
 export const userRoute = { userRouter };
