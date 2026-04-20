@@ -1,8 +1,7 @@
 generator client {
-  provider     = "prisma-client"
-  output       = "../src/generated/prisma"
-  moduleFormat = "esm"
-} 
+  provider = "prisma-client"
+  output   = "../src/generated"
+}
 
 datasource db {
   provider = "postgresql"
@@ -18,62 +17,55 @@ enum EventType {
   PRIVATE
 }
 
-
-
-
 model User {
-  id            String          @id @default(uuid())
-  email         String          @unique
-  name          String?
-  password      String 
-  role          Role            @default(USER)
-  
+  id       String  @id @default(uuid())
+  email    String  @unique
+  name     String?
+  password String
+  role     Role    @default(USER)
+
   // Relations
   // REMOVE THIS LINE: ownedEvents Event[] @relation("EventOrganizer") 
-  
-  reviews       Review[]
-  
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+
+  reviews Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Event {
-  id              String          @id @default(uuid())
+  id              String    @id @default(uuid())
   title           String
   image           String?
   description     String
   date            String
   time            String
-  venue           String          
-  type            EventType       @default(PUBLIC)
-  registrationFee Float           @default(0.0)
-  isFeatured      Boolean         @default(false)
-  
-  // Plain string fields (No relation to User model)
-  organizerName   String
-  organizerEmail  String          // Can have many events with same email
-  
-  // Keep relations with other models
-  reviews         Review[]
-  
+  venue           String
+  type            EventType @default(PUBLIC)
+  registrationFee Float     @default(0.0)
+  isFeatured      Boolean   @default(false)
 
-  
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  // Plain string fields (No relation to User model)
+  organizerName  String
+  organizerEmail String // Can have many events with same email
+
+  // Keep relations with other models
+  reviews Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-
-
 model Review {
-  id        String   @id @default(uuid())
-  rating    Int      @default(5)
-  comment   String?
-  
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  eventId   String
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  id      String  @id @default(uuid())
+  rating  Int     @default(5)
+  comment String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -82,30 +74,30 @@ model Review {
 }
 
 model Booking {
-  id              String    @id @default(uuid())
-  
+  id String @id @default(uuid())
+
   // Event Details
-  eventId         String
-  title           String
-  image           String?
-  date            String
-  time            String
-  venue           String
-  type            String    @default("Ticket") // Matches the string logic in your controller
-  
+  eventId String
+  title   String
+  image   String?
+  date    String
+  time    String
+  venue   String
+  type    String  @default("Ticket") // Matches the string logic in your controller
+
   // Pricing & Organizer
-  price           Float     @default(0.0)
-  organizerEmail  String
-  
+  price          Float  @default(0.0)
+  organizerEmail String
+
   // User/Customer Info
-  userName        String
-  email           String    // Renamed from userEmail to match your req.body
-  mobile          String    // Renamed from userMobile to match your req.body
-  
+  userName String
+  email    String // Renamed from userEmail to match your req.body
+  mobile   String // Renamed from userMobile to match your req.body
+
   // Payment Tracking
-  transactionId   String    @unique // Map this to your data.tran_id
-  status          String    @default("PENDING") // Better as String to handle "SUCCESS", "FAILED", "CANCELLED"
-  
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  transactionId String @unique // Map this to your data.tran_id
+  status        String @default("PENDING") // Better as String to handle "SUCCESS", "FAILED", "CANCELLED"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

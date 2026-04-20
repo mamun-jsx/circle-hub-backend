@@ -1,7 +1,11 @@
-import { PrismaClient } from '../generated/prisma/index.js';
-const prisma = new PrismaClient();
-async function main() {
-  const users = await prisma.user.findMany();
-  console.log(users.map(u => ({ email: u.email, role: u.role })));
-}
-main().catch(console.error).finally(() => prisma.$disconnect());
+// import { PrismaClient } from "../generated/client.js";
+
+
+// const prisma = new PrismaClient();
+// async function main() {
+//   const users = await prisma.user.findMany();
+//   console.log(users.map((u) => ({ email: u.email, role: u.role })));
+// }
+// main()
+//   .catch(console.error)
+//   .finally(() => prisma.$disconnect());

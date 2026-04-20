@@ -1,6 +1,6 @@
 // import { Response, NextFunction } from "express";
 // import jwt from "jsonwebtoken";
-// import { AuthRequest } from "../types/interface.ts";
+// import { AuthRequest } from "../types/interface.js";
 
 // export const verifyAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
 //   const token = req.headers.authorization?.split(" ")[1];

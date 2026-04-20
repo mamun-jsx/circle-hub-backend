@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import SSLCommerzPayment from "sslcommerz-lts";
-import { prisma } from "../../lib/prisma.ts";
+import { prisma } from "../../lib/prisma.js";
 
 const store_id = process.env.store_id_SSLcommerz || "";
 const store_passwd = process.env.store_passwd_SSLcommerz || "";
 const is_live = false; // Set to true for production
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4001";
+const BACKEND_URL =
+  process.env.BACKEND_URL || "https://event-circle-backend.vercel.app";
 
 const buyTicket = async (req: Request, res: Response) => {
   try {
@@ -30,10 +31,10 @@ const buyTicket = async (req: Request, res: Response) => {
       total_amount: Number(price),
       currency: "BDT",
       tran_id: transactionId,
-      success_url: `http://localhost:4001/api/success-payment/${transactionId}`,
-      fail_url: "http://localhost:4001/api/fail-payment",
-      cancel_url: `http://localhost:4001/api/cancel-payment/${transactionId}`,
-      ipn_url: "http://localhost:4001/api/ipn",
+      success_url: `https://event-circle-backend.vercel.app/api/success-payment/${transactionId}`,
+      fail_url: "https://event-circle-backend.vercel.app/api/fail-payment",
+      cancel_url: `https://event-circle-backend.vercel.app/api/cancel-payment/${transactionId}`,
+      ipn_url: "https://event-circle-backend.vercel.app/api/ipn",
       shipping_method: "NO",
       product_name: title,
       product_category: type || "Ticket",
@@ -110,7 +111,7 @@ const successPayment = async (req: Request, res: Response) => {
         <head><title>Redirecting...</title></head>
         <body>
           <script>
-            window.location.href = "http://localhost:3000/dashboard/my-tickets";
+            window.location.href = "https://event-circle-frontend.vercel.app/dashboard/my-tickets";
           </script>
         </body>
       </html>
@@ -125,7 +126,7 @@ const failPayment = async (req: Request, res: Response) => {
     <html>
       <body>
         <script>
-          window.location.href = "http://localhost:3000/dashboard/my-tickets?error=payment_failed";
+          window.location.href = "https://event-circle-frontend.vercel.app/dashboard/my-tickets?error=payment_failed";
         </script>
       </body>
     </html>
@@ -142,7 +143,7 @@ const cancelPayment = async (req: Request, res: Response) => {
     <html>
       <body>
         <script>
-          window.location.href = "http://localhost:3000/dashboard/my-tickets?error=payment_cancelled";
+          window.location.href = "https://event-circle-frontend.vercel.app/dashboard/my-tickets?error=payment_cancelled";
         </script>
       </body>
     </html>

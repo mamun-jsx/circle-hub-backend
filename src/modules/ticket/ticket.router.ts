@@ -1,7 +1,7 @@
 import express from "express";
-import { ticketController } from "./ticket.controller.ts";
-import { checkRole } from "../../middlewares/checkRole.ts";
-import { verifyAuth } from "../../middlewares/verifyAuth.ts";
+import { ticketController } from "./ticket.controller.js";
+import { checkRole } from "../../middlewares/checkRole.js";
+import { verifyAuth } from "../../middlewares/verifyAuth.js";
 const router = express.Router();
 
 router.post("/api/buy-ticket", ticketController.buyTicket);

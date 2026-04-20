@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { userController } from "./user.controller.ts";
-import { verifyAuth } from "../../middlewares/verifyAuth.ts";
+import { userController } from "./user.controller.js";
+import { verifyAuth } from "../../middlewares/verifyAuth.js";
 
 const userRouter = Router();
 userRouter.get("/api/events", userController.getAllEvents);

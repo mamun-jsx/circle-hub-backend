@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { userRoute } from "../modules/user/user.route.ts";
-import { adminRoute } from "../modules/admin/admin.route.ts";
-import { authRoute } from "../modules/auth/auth.route.ts";
-import { ticketRouter } from "../modules/ticket/ticket.router.ts";
+import { userRoute } from "../modules/user/user.route.js";
+import { adminRoute } from "../modules/admin/admin.route.js";
+import { authRoute } from "../modules/auth/auth.route.js";
+import { ticketRouter } from "../modules/ticket/ticket.router.js";
 
 const router = Router();
 

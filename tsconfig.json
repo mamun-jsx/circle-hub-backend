@@ -4,8 +4,8 @@
     "outDir": "./dist",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
+    "allowImportingTsExtensions": false,
+    "noEmit": false,
     "target": "ES2023",
     "lib": ["esnext"],
     "types": ["node"],
@@ -24,3 +24,4 @@
   "include": ["src/**/*","sslcommerz-lts.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
+
