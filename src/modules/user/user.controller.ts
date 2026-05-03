@@ -4,7 +4,11 @@ import { prisma } from "../../lib/prisma.js";
 // get all events
 const getAllEvents = async (req: Request, res: Response) => {
   try {
-    const allEvents = await prisma.event.findMany();
+    const allEvents = await prisma.event.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     if (allEvents?.length === 0) {
       return res.status(200).json({
         success: true,

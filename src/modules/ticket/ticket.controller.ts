@@ -156,6 +156,9 @@ const getAllTickets = async (req: Request, res: Response) => {
       where: {
         status: "SUCCESS",
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     return res.status(200).json({
       success: true,

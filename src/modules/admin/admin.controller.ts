@@ -4,7 +4,11 @@ import { prisma } from "../../lib/prisma.js";
 // get all users
 const getAllUser = async (req: Request, res: Response) => {
   try {
-    const allUsers = await prisma.user.findMany();
+    const allUsers = await prisma.user.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
     if (allUsers?.length === 0) {
       res.status(200).json({

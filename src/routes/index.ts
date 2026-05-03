@@ -3,6 +3,7 @@ import { userRoute } from "../modules/user/user.route.js";
 import { adminRoute } from "../modules/admin/admin.route.js";
 import { authRoute } from "../modules/auth/auth.route.js";
 import { ticketRouter } from "../modules/ticket/ticket.router.js";
+import { chatbotRoute } from "../modules/chatbot/chatbot.route.js";
 
 const router = Router();
 
@@ -17,4 +18,9 @@ router.use(authRoute.authRouter);
 
 // ticket routes
 router.use(ticketRouter);
+
+// chatbot routes
+router.use(chatbotRoute.chatbotRouter);
+
 export default router;
+
