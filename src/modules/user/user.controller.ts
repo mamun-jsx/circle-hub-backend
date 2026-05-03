@@ -138,7 +138,11 @@ const provideReview = async (req: Request, res: Response) => {
 
 const getAllReview = async (req: Request, res: Response) => {
   try {
-    const allReview = await prisma.review.findMany();
+    const allReview = await prisma.review.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     if (allReview?.length === 0) {
       return res.status(200).json({
         success: true,
