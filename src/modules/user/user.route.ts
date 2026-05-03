@@ -11,5 +11,8 @@ userRouter.get("/api/all-review", userController.getAllReview);
 userRouter.get("/api/review/:id", verifyAuth, userController.getSingleReview);
 userRouter.get("/api/my-review/:id", userController.getMyReview);
 userRouter.patch("/api/review/:id", verifyAuth, userController.updateReview);
+userRouter.post("/api/buy-free-ticket", verifyAuth, userController.buyFreeTicket);
+userRouter.delete("/api/review/:id", verifyAuth, userController.deleteReview);
+
 
 export const userRoute = { userRouter };

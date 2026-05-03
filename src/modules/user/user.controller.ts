@@ -236,6 +236,75 @@ export const getSingleReview = async (req: Request, res: Response) => {
   }
 };
 // buy free ticket
+const buyFreeTicket = async (req: Request, res: Response) => {
+  try {
+    const {
+      eventId,
+      title,
+      image,
+      date,
+      time,
+      venue,
+      price,
+      organizerEmail,
+      userName,
+      mobile,
+      email,
+    } = req.body;
+
+    const transactionId = `FREE${Date.now()}`;
+
+    const result = await prisma.booking.create({
+      data: {
+        transactionId,
+        eventId,
+        title,
+        image,
+        date,
+        time,
+        venue,
+        price: Number(price),
+        organizerEmail,
+        userName,
+        email,
+        mobile,
+        status: "SUCCESS", // Free tickets are automatically successful
+      },
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Free ticket booked successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error("Free Booking Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+const deleteReview = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    await prisma.review.delete({
+      where: {
+        id,
+      },
+    });
+    res.status(200).json({
+      success: true,
+      message: "Review deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
 
 export const userController = {
   getAllEvents,
@@ -246,4 +315,7 @@ export const userController = {
   getSingleReview,
   getAllReview,
   getMyReview,
+  buyFreeTicket,
+  deleteReview,
 };
+

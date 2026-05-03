@@ -141,9 +141,41 @@ const deleteEventById = async (req: Request, res: Response) => {
     });
   }
 };
+const getStats = async (req: Request, res: Response) => {
+  try {
+    const [userCount, eventCount, bookingData] = await Promise.all([
+      prisma.user.count(),
+      prisma.event.count(),
+      prisma.booking.aggregate({
+        where: { status: "SUCCESS" },
+        _count: true,
+        _sum: { price: true },
+      }),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalUsers: userCount,
+        totalEvents: eventCount,
+        totalTickets: bookingData._count,
+        totalRevenue: bookingData._sum.price || 0,
+      },
+    });
+  } catch (error) {
+    console.error("Stats Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
 export const adminController = {
   getAllUser,
   createEvent,
   updateEvent,
   deleteEventById,
+  getStats,
 };
+

@@ -29,6 +29,13 @@ adminRouter.delete(
   checkRole(["ADMIN"]),
   adminController.deleteEventById,
 );
+adminRouter.get(
+  "/api/admin/stats",
+  verifyAuth,
+  checkRole(["ADMIN"]),
+  adminController.getStats,
+);
+
 
 export const adminRoute = { adminRouter };
 
